@@ -1,0 +1,21 @@
+
+
+
+body {
+    background-image: url(../img/blueshapebackground.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100%;
+}
+
+.container {
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.jumbotron {
+    border-bottom: 1px solid blue;
+}
+.lead {
+    font-size: 1.75em;
+}
