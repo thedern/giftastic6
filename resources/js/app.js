@@ -59,12 +59,11 @@ $(function() {
    giffy API Query
    ========================================================================== */
 
-// click event for giff search
+// click event for giff search vi giffy
 $(function() {
 
     //! need to deactivate button after click
     $('#searchButtons').on('click','.btn-primary', function(){
-        console.log(buttonText);
         var buttonText = $(this).attr('data-interest');
         var queryURL = "https://api.giphy.com/v1/gifs/search?q=$" + buttonText + "&api_key=dc6zaTOxFJmzC&limit=10&rating=pg";
 
@@ -72,6 +71,20 @@ $(function() {
         var interestDiv = $('<div>');
         interestDiv.addClass('m-2 p-2');
         interestDiv.css('background-color', 'rgba(128, 128, 128, 0.7)');
+
+        // create delete button for each div.  Place delete button in top corner
+        var delPara = $('<p>');
+        delPara.addClass('d-flex justify-content-end');
+        delPara.attr('id', 'deleteSectionWrapper');
+
+        var delButtons = $('<button>');
+        delButtons.addClass('btn btn-danger m-2');
+        delButtons.attr('id', 'deleteSection');
+        delButtons.text('X');
+
+        delPara.append(delButtons);
+        interestDiv.append(delPara);
+
         // need to figure out how to only fade in the new div..  perhaps give div and id of buttonText and append by id?
         $('#images').prepend(interestDiv).hide().fadeIn(2000); 
 
@@ -98,6 +111,16 @@ $(function() {
                 // animation needs to be default stopped!!!
             });
         });
+
+        /* Remove button for current section
+            due to scope, del section must be located here within the giffy api function which creates and populates the images div
+            the click event below gets the parent of the delete button and removes the parent and its content.
+        */
+        $('#deleteSectionWrapper').on('click','.btn', function() {
+            $('#deleteSectionWrapper').parent().fadeOut(2000, function () {
+                $('#deleteSectionWrapper').parent().remove();
+            });
+        });
     });
 });
 
@@ -113,12 +136,18 @@ $(function() {
 
 // clear screen by fadeout and remove all child nodes from #images
 $(function () {
-    $('button#delete').on('click', function() {
+    $('button#deleteAll').on('click', function() {
         $('#images').fadeOut(2000, function () {
             $(this).empty();
         });
     }); 
 });
+
+
+/*
+   Clear Current section
+   ========================================================================== */
+
 
 
 
