@@ -38,6 +38,23 @@ $(function () {
 });
 
 
+
+/*
+   form to Enter New Buttons on user clicking the on-screen submit button
+   ========================================================================== */
+
+$(function() {
+    $('#addNewButton').on('click', function() {
+        var userButtonText = $('#newButton').val();
+        userButtonText = userButtonText.toLowerCase();
+        var buttons = $('<button>');
+        buttons.addClass('btn btn-primary m-2');
+        buttons.attr('data-interest', userButtonText);
+        buttons.text(userButtonText);
+        $('div#searchButtons').append(buttons);
+    });
+});
+
 /*
    giffy API Query
    ========================================================================== */
@@ -46,7 +63,8 @@ $(function () {
 $(function() {
 
     //! need to deactivate button after click
-    $('.btn-primary').click(function(){
+    $('#searchButtons').on('click','.btn-primary', function(){
+        console.log(buttonText);
         var buttonText = $(this).attr('data-interest');
         var queryURL = "https://api.giphy.com/v1/gifs/search?q=$" + buttonText + "&api_key=dc6zaTOxFJmzC&limit=10&rating=pg";
 
@@ -86,10 +104,26 @@ $(function() {
 
 /*
    Animaton Start/Stop
-   ========================================================================== */
+   ========================================================================*/
 
 
 /*
-   form to Enter New Buttons
+   Clear All
    ========================================================================== */
+
+// clear screen by fadeout and remove all child nodes from #images
+$(function () {
+    $('button#delete').on('click', function() {
+        $('#images').fadeOut(2000, function () {
+            $(this).empty();
+        });
+    }); 
+});
+
+
+
+
+
+
+
 
