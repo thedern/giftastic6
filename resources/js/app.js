@@ -45,13 +45,15 @@ $(function () {
 
 $(function() {
     $('#addNewButton').on('click', function() {
-        var userButtonText = $('#newButton').val();
+        var userButtonText = $('#newButton').val().trim();
         userButtonText = userButtonText.toLowerCase();
         var buttons = $('<button>');
         buttons.addClass('btn btn-primary m-2');
         buttons.attr('data-interest', userButtonText);
         buttons.text(userButtonText);
         $('div#searchButtons').append(buttons);
+        // clear text after submit, to use this, form-grop must be used in form tag.  Id is that of form tag, not group.
+        document.getElementById('myForm').reset();
     });
 });
 
@@ -59,17 +61,16 @@ $(function() {
    giffy API Query
    ========================================================================== */
 
-// click event for giff search vi giffy
+// click event for giff search via giffy
 $(function() {
 
-    //! need to deactivate button after click
     $('#searchButtons').on('click','.btn-primary', function(){
         var buttonText = $(this).attr('data-interest');
         var queryURL = "https://api.giphy.com/v1/gifs/search?q=$" + buttonText + "&api_key=dc6zaTOxFJmzC&limit=10&rating=pg";
 
         // create a div to contain all the images for each button press
         var interestDiv = $('<div>');
-        interestDiv.addClass('m-2 p-2');
+        interestDiv.addClass('m-2 p-2 pics');
         interestDiv.css('background-color', 'rgba(128, 128, 128, 0.7)');
 
         // create delete button for each div.  Place delete button in top corner
@@ -85,8 +86,7 @@ $(function() {
         delPara.append(delButtons);
         interestDiv.append(delPara);
 
-        // need to figure out how to only fade in the new div..  perhaps give div and id of buttonText and append by id?
-        $('#images').prepend(interestDiv).hide().fadeIn(2000); 
+        $('#images').prepend(interestDiv).hide().fadeIn(2000);
 
         // ajax call
         // used the 'each' function to iterate through the response's data array and get the embed.url
@@ -96,32 +96,47 @@ $(function() {
             url: queryURL,
             method: 'GET'
         }).then(function(response) {
+            console.log(response);
            
             $.each(response.data, function(index, value) {
                 
-                // create image tag and add to document
+                // create image tag and add to document with default state as 'still'
                 var interestS = $('<span>');
                 interestS.addClass('p-2');
                 var interestImg = $('<img>');
-                interestImg.attr('src', value.images.fixed_height.url);
+                interestImg.attr('src', value.images.fixed_height_still.url);
+                interestImg.attr('data-still', value.images.fixed_height_still.url);
+                interestImg.attr('data-animate', value.images.fixed_height.url);
+                interestImg.attr('data-state', 'still');
+                interestImg.attr('class', 'gif');
                 interestImg.attr('alt', value.title);
 
                 interestS.append(interestImg);
                 interestDiv.append(interestS);
-                // animation needs to be default stopped!!!
+
             });
         });
 
         /* Remove button for current section
             due to scope, del section must be located here within the giffy api function which creates and populates the images div
             the click event below gets the parent of the delete button and removes the parent and its content.
+            must use 'this' else it will delete the first '.btn' parent it finds and not the intended.
         */
         $('#deleteSectionWrapper').on('click','.btn', function() {
-            $('#deleteSectionWrapper').parent().fadeOut(2000, function () {
-                $('#deleteSectionWrapper').parent().remove();
-            });
+            
+            // fade out; delete; fade in
+            $(this).parent().parent().fadeOut(2000);
+
+            $('#images').fadeOut(2000);
+            
+            $(this).parent().parent().remove();
+        
+            $('#images').fadeIn(2000);
+            
         });
+        //});
     });
+    
 });
 
 
@@ -129,6 +144,20 @@ $(function() {
    Animaton Start/Stop
    ========================================================================*/
 
+$('#images').on('click', '.gif', function() {
+    // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
+    var state = $(this).attr('data-state');
+    // If the clicked image's state is still, update its src attribute to what its data-animate value is.
+    // Then, set the image's data-state to animate
+    // Else set src to the data-still value
+    if (state === 'still') {
+        $(this).attr('src', $(this).attr('data-animate'));
+        $(this).attr('data-state', 'animate');
+    } else {
+        $(this).attr('src', $(this).attr('data-still'));
+        $(this).attr('data-state', 'still');
+    }
+});
 
 /*
    Clear All
@@ -140,13 +169,10 @@ $(function () {
         $('#images').fadeOut(2000, function () {
             $(this).empty();
         });
+        
     }); 
 });
 
-
-/*
-   Clear Current section
-   ========================================================================== */
 
 
 
