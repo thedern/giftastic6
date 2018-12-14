@@ -16,6 +16,11 @@ body {
     border-bottom: 1px solid blue;
 }
 
+#smaller {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
 .lead {
     font-size: 1.75em;
     color: blue;
