@@ -13,13 +13,12 @@ body {
 }
 
 .jumbotron {
-    /*border-bottom: 1px solid blue;*/
-    background-color:  black;
+    border-bottom: 1px solid blue;
 }
 
 .lead {
     font-size: 1.75em;
-    color: orange;
+    color: blue;
 }
 
 #images img:hover {
