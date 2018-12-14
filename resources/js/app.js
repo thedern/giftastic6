@@ -46,14 +46,19 @@ $(function () {
 $(function() {
     $('#addNewButton').on('click', function() {
         var userButtonText = $('#newButton').val().trim();
-        userButtonText = userButtonText.toLowerCase();
-        var buttons = $('<button>');
-        buttons.addClass('btn btn-primary m-2');
-        buttons.attr('data-interest', userButtonText);
-        buttons.text(userButtonText);
-        $('div#searchButtons').append(buttons);
-        // clear text after submit, to use this, form-grop must be used in form tag.  Id is that of form tag, not group.
-        document.getElementById('myForm').reset();
+        if (userButtonText.length !== 0) {
+            userButtonText = userButtonText.toLowerCase();
+            var buttons = $('<button>');
+            buttons.addClass('btn btn-primary m-2');
+            buttons.attr('data-interest', userButtonText);
+            buttons.text(userButtonText);
+            $('div#searchButtons').append(buttons);
+            // clear text after submit, to use this, form-grop must be used in form tag.  Id is that of form tag, not group.
+            document.getElementById('myForm').reset();
+        } else {
+            alert('cannot submit empty buttons');
+        }
+        
     });
 });
 
@@ -71,7 +76,7 @@ $(function() {
         // create a div to contain all the images for each button press
         var interestDiv = $('<div>');
         interestDiv.addClass('m-2 p-2 pics');
-        interestDiv.css('background-color', 'rgba(128, 128, 128, 0.7)');
+        interestDiv.css('background-color', 'rgba(128, 128, 128, 0.4)');
 
         // create delete button for each div.  Place delete button in top corner
         var delPara = $('<p>');
@@ -127,11 +132,11 @@ $(function() {
             // fade out; delete; fade in
             $(this).parent().parent().fadeOut(2000);
 
-            $('#images').fadeOut(2000);
+            //$('#images').fadeOut(2000);
             
             $(this).parent().parent().remove();
         
-            $('#images').fadeIn(2000);
+            // $('#images').fadeIn(2000);
             
         });
         //});

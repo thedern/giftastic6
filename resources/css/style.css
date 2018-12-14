@@ -4,10 +4,7 @@ html {
 }
 
 body {
-    background-image: url(../img/blueshapebackground.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    /*min-height: 100%; */
+    background: orange;
 }
 
 .container {
@@ -16,12 +13,20 @@ body {
 }
 
 .jumbotron {
-    border-bottom: 1px solid blue;
+    /*border-bottom: 1px solid blue;*/
+    background-color:  black;
 }
+
 .lead {
     font-size: 1.75em;
+    color: orange;
 }
 
 #images img:hover {
     cursor: pointer;
+}
+
+#addNewButton {
+    background-color: orange;
+    color: white;
 }
