@@ -75,7 +75,7 @@ $(function() {
 
         // create a div to contain all the images for each button press
         var interestDiv = $('<div>');
-        interestDiv.addClass('m-2 p-2 pics');
+        interestDiv.addClass('col-md-12 m-2 p-2 pics text-center');
         interestDiv.css('background-color', 'rgba(128, 128, 128, 0.4)');
 
         // create delete button for each div.  Place delete button in top corner
