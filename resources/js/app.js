@@ -71,7 +71,7 @@ $(function() {
 
     $('#searchButtons').on('click','.btn-primary', function(){
         var buttonText = $(this).attr('data-interest');
-        var queryURL = "https://api.giphy.com/v1/gifs/search?q=$" + buttonText + "&api_key=dc6zaTOxFJmzC&limit=10&rating=pg";
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=$" + buttonText + "&api_key=dc6zaTOxFJmzC&limit=10&rating=g";
 
         // create a div to contain all the images for each button press
         var interestDiv = $('<div>');
@@ -101,20 +101,21 @@ $(function() {
             url: queryURL,
             method: 'GET'
         }).then(function(response) {
-            console.log(response);
+            //console.log(response);
            
             $.each(response.data, function(index, value) {
                 
                 // create image tag and add to document with default state as 'still'
                 var interestS = $('<span>');
-                interestS.addClass('p-2');
+                interestS.addClass('p-2 dynamicImage');
+
                 var interestImg = $('<img>');
                 interestImg.attr('src', value.images.fixed_height_still.url);
                 interestImg.attr('data-still', value.images.fixed_height_still.url);
                 interestImg.attr('data-animate', value.images.fixed_height.url);
                 interestImg.attr('data-state', 'still');
                 interestImg.attr('class', 'gif');
-                interestImg.attr('alt', value.title);
+                interestImg.attr('alt', value.title + ' ' + 'rating: ' + value.rating);
 
                 interestS.append(interestImg);
                 interestDiv.append(interestS);
